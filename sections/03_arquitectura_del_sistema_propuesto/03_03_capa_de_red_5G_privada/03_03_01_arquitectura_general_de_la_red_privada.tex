@@ -1,0 +1,82 @@
+\subsubsection{Arquitectura general de la red privada}
+
+La red privada \gls{5g} del \gls{iteamupv} constituye la infraestructura de comunicaciones sobre la que se soporta la capa robótica descrita en la Sección \ref{sec:capa_robotica}. Esta red presenta una arquitectura completa en modo \gls{5gsa}, con despliegue \textit{indoor} y \textit{outdoor}, múltiples bandas de frecuencia y diversas implementaciones de núcleo \gls{5g} \cite{ITEAM2025Private5G}.
+
+Desde el punto de vista funcional, la arquitectura se estructura en cuatro bloques principales:
+
+\begin{enumerate}
+    \item \textbf{Radio Access Network (RAN)}
+
+    La \gls{ran} es el subsistema encargado de proporcionar conectividad radio entre los \gls{ues} y el núcleo \gls{5g}. Entre las características más relevantes del equipamiento empleado destacan:
+
+    \begin{itemize}
+        \item Ancho de banda de hasta 100 MHz.
+        \item Configuración flexible en \textit{Time Division Duplex} (TDD).
+        \item Soporte MIMO 4x4.
+        \item Arquitectura funcionalmente separada \gls{cu_du_ru}.
+    \end{itemize}
+
+    La separación funcional \gls{cu_du_ru} permite desacoplar el procesamiento de la capa física de las capas superiores, reducir la latencia situando la \gls{du} próxima a la unidad radio y virtualizar la \gls{cu} sobre infraestructura de propósito general. Asimismo, el soporte de \textit{radio slicing} mediante asignación dinámica de recursos físicos (PRBs) permite priorizar determinados flujos de tráfico en función de los requisitos de cada aplicación.
+
+    En aplicaciones de robótica móvil, la \gls{ran} resulta crítica al garantizar un \textit{uplink} robusto para la transmisión de datos sensoriales y minimizar el \textit{jitter} en escenarios de teleoperación.
+
+    \item \textbf{Núcleo \gls{5g} (\gls{5g} Core)}
+
+    El núcleo \gls{5g} implementa las funciones del plano de control (\textit{Control Plane}) y del plano de usuario (\textit{User Plane}). El núcleo sigue una arquitectura \gls{sba}, propia de \gls{5gsa}, lo que permite la virtualización y desacoplamiento de funciones de red sobre infraestructura de propósito general.
+
+    Estas funciones pueden ejecutarse de forma virtualizada tanto en infraestructura \textit{Edge} como en \textit{Cloud}, tal y como se representa en la Figura~\ref{fig:arquitectura_5Gsa}.
+
+    La posibilidad de instanciar múltiples \gls{upf} habilita mecanismos de \textit{network slicing} a nivel de \textit{core}, permitiendo:
+
+    \begin{itemize}
+        \item Aislar tráfico por aplicación.
+        \item Implementar políticas de QoS diferenciadas.
+        \item Aproximar el plano de usuario al \textit{Edge}.
+    \end{itemize}
+
+    En sistemas distribuidos basados en \gls{ros} con estrategias de \textit{offloading}, la proximidad de la \gls{upf} a los nodos \textit{Edge} reduce la latencia \gls{e2e} en la transmisión de \textit{topics} de alta tasa, lo que resulta determinante en aplicaciones sensibles al retardo.
+
+    \item \textbf{Infraestructura Edge asociada al plano de usuario}
+
+    La infraestructura \textit{Edge} constituye el punto intermedio del \textit{continuum} 	\textit{Robot--Edge--Cloud} \cite{CrespoAguado2024IoTEdgeCloud}. Asociada al plano de usuario, permite ejecutar tareas de procesamiento con requisitos estrictos de latencia.
+
+    La infraestructura \textit{edge} puede alojar instancias virtualizadas de la \gls{upf}, aproximando el plano de usuario a los dispositivos finales y reduciendo la latencia \gls{e2e}. Esta integración refuerza el carácter distribuido y programable de la arquitectura, alineado con el paradigma de \gls{nfv}.
+
+    En el contexto de robótica móvil, el \textit{edge} posibilita:
+
+    \begin{itemize}
+        \item Teleoperación inmersiva.
+        \item Procesamiento en tiempo real de vídeo.
+        \item \textit{Offloading} de algoritmos de \gls{slam} de elevada complejidad computacional.
+        \item Inferencia de modelos de inteligencia artificial.
+    \end{itemize}
+
+    Este enfoque reduce la carga computacional del robot y evita el envío continuo de grandes volúmenes de datos al \textit{cloud}.
+
+    \item \textbf{Interconexión con cloud}
+
+    La interconexión con infraestructuras \textit{cloud} permite ejecutar tareas computacionalmente intensivas no críticas en latencia, tales como:
+
+    \begin{itemize}
+        \item Procesamiento Big Data.
+        \item Entrenamiento de modelos de aprendizaje automático.
+        \item Almacenamiento histórico de datos.
+    \end{itemize}
+
+    Este diseño desacopla los procesos sensibles a la latencia (gestionados en \textit{edge}) de aquellos con mayores requerimientos computacionales pero menor criticidad temporal (gestionados por el \textit{cloud}) \cite{ITEAM2025Private5G}.
+\end{enumerate}
+
+Como se muestra en la Figura~\ref{fig:arquitectura_5Gsa}, la arquitectura integra la red privada \gls{5g} con la infraestructura \textit{edge} y la interconexión \textit{cloud} bajo un esquema de orquestación dual (\textit{Network Orchestration} y \textit{Edge Orchestration}). Esta separación permite la gestión dinámica de recursos, la instanciación de funciones de red virtualizadas y el despliegue automatizado de aplicaciones distribuidas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/arquitectura_5Gsa.png}
+    \caption{Arquitectura funcional de la red privada \gls{5gsa} integrada con infraestructura \textit{Edge} y \textit{Cloud}, donde se muestra la virtualización de funciones de red y aplicaciones, así como los mecanismos de orquestación \cite{ITEAM2025Private5G}.}
+    \label{fig:arquitectura_5Gsa}
+\end{figure}
+
+La adopción de una red privada \gls{5g} como capa de red del sistema experimental responde a la necesidad de garantizar aislamiento lógico, control determinista de \gls{qos} y segmentación mediante \textit{network slicing}, capacidades que no están disponibles de forma nativa en tecnologías inalámbricas convencionales como IEEE 802.11 (WiFi), especialmente en entornos con tráfico heterogéneo y requisitos de baja latencia.
+
+Desde una perspectiva sistémica, la red privada no actúa únicamente como medio de transporte de datos, sino como un componente activo del sistema distribuido, alineado con el paradigma 	\textit{Robot--Edge--Cloud} y con los requisitos de aplicaciones avanzadas como Digital Twins y teleoperación inmersiva.
+
+% Finalmente, la red privada opera en las bandas n40 y n78, lo que permite evaluar compromisos entre cobertura, capacidad y latencia.

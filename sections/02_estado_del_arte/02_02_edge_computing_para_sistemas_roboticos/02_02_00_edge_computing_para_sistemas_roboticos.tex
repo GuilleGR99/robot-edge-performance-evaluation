@@ -1,0 +1,14 @@
+\subsection{Edge computing para sistemas robóticos}
+\label{sec:edge_computing_para_sistemas_roboticos}
+
+El incremento en la cantidad de datos generados por sistemas robóticos modernos ha impulsado el desarrollo de arquitecturas de procesamiento distribuidas que permitan complementar las capacidades computacionales de los robots móviles. La ejecución local de estas tareas puede resultar limitada por las limitaciones de potencia de procesamiento y consumo energético de los sistemas embarcados.
+
+En este contexto, el paradigma de \textit{edge computing} propone trasladar parte del procesamiento de datos desde los dispositivos finales hacia nodos de computación situados en el borde de la red. Estos nodos, denominados \textit{edge servers}, permiten ejecutar tareas computacionalmente más demandantes. Su proximidad a la fuente de datos reduce la latencia de comunicación respecto a los centros de datos (\textit{cloud}), lo que se traduce en menores tiempos de respuesta para aplicaciones sensibles al retardo.
+
+Este tipo de configuraciones suele describirse como arquitecturas \textit{Robot--Edge--Cloud}, en las que las tareas de control y adquisición de datos se ejecutan en el robot, mientras que el procesamiento intensivo se desplaza hacia nodos de computación en el borde de la red o infraestructuras \textit{cloud}. Este enfoque permite reducir la carga computacional en la plataforma robótica, facilita el despliegue de aplicaciones más complejas y mejora la escalabilidad del sistema.
+
+La integración de capacidades de computación en el borde de la red ha sido considerada en la evolución de las arquitecturas \gls{5g} . En particular, los trabajos de estandarización del \gls{3gpp} han analizado diferentes arquitecturas para habilitar aplicaciones desplegadas en el borde de la red y facilitar la interacción entre los dispositivos finales y los servidores de \textit{edge computing} \cite{3gppTR23758}. 
+
+Plataformas experimentales basadas en redes privadas \gls{5g} han demostrado la viabilidad de integrar robots móviles con infraestructuras de computación distribuida en entornos industriales. Esto abre nuevas posibilidades para la optimización de procesos \cite{10885713}.
+
+No obstante, la adopción de arquitecturas robóticas basadas en \textit{edge computing} plantea diversos retos técnicos, entre los que destacan la gestión de la latencia de comunicación, la asignación dinámica de recursos de computación y la coordinación entre los distintos componentes distribuidos del sistema. Por este motivo, el diseño de sistemas robóticos distribuidos requiere considerar conjuntamente las capacidades de la red de comunicaciones, la arquitectura de procesamiento y los requisitos temporales de las aplicaciones robóticas.

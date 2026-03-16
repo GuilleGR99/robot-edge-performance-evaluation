@@ -1,0 +1,233 @@
+%\pdfminorversion=5  %por la version de los pdf que incluyo
+\documentclass[spanish,a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+
+\usepackage{graphicx}
+%\usepackage{eurosym}
+\usepackage{epstopdf}
+\usepackage{anysize}
+\usepackage[indent,bf]{caption}
+\usepackage{fancyhdr}
+\setlength{\headheight}{27.2pt}
+\addtolength{\topmargin}{-11.7pt}
+\pagestyle{fancy}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows,shapes}
+\usepackage[matrix,arrow]{xy}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage[toc,acronym,nonumberlist]{glossaries}
+\makeglossaries
+
+\input{acronyms}
+
+\usepackage[colorlinks,bookmarks=true,bookmarksnumbered=false,
+linkcolor=black,citecolor=black]{hyperref}
+
+\pgfplotscreateplotcyclelist{mylist2}{%
+{blue!60!black,mark=*,mark repeat=5,mark size=1,7,line width=1},
+{red!60!black,mark=square*,mark repeat=5,mark size=0.6,line width=1}}
+
+\pgfplotscreateplotcyclelist{mylist3}{%
+{blue!60!black,mark=*,mark repeat=5,mark size=0.7,line width=1},
+{red!60!black,mark=square*,mark repeat=5,mark size=0.6,line width=1},
+{green!50!black,mark=diamond*,mark repeat=5,mark size=0.9,line width=1}}
+
+
+\pgfplotscreateplotcyclelist{mylist6}{%
+{blue!60!black,mark=*,mark repeat=5,mark size=0.7,line width=1},
+{red!60!black,mark=*,mark repeat=5,mark size=0.7,line width=1},
+{green!50!black,mark=*,mark repeat=5,mark size=0.7,line width=1},
+{blue!40!black!40!white,mark=square*,mark repeat=5,mark size=0.8,line width=1},
+{red!40!black!40!white,mark=square*,mark repeat=5,mark size=0.8,line width=1},
+{green!40!black!40!white,mark=square*,mark repeat=5,mark size=0.8,line width=1}}
+
+\marginsize{2.5cm}{2.5cm}{2cm}{3cm} % Controla los márgenes {izquierda}{derecha}{arriba}{abajo}. 
+ 
+\setlength{\headheight}{15.5pt}
+
+ \pagestyle{fancyplain}
+ \lhead[\fancyplain{}{\bf \thepage}]{\fancyplain{}{\bf \rightmark}}
+ \rhead[\fancyplain{}{\bf \leftmark}]{\fancyplain{}{\bf \thepage}}
+ \chead{} \lfoot{} \cfoot{\fancyplain{}{}} \rfoot{}
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+ 
+\newcommand{\estilouno}{\bf \em \color{blue!70!black}}
+
+\newcommand{\estilodos}{\bf \color{blue!70!black}}
+
+\begin{document}
+
+\renewcommand{\tablename}{Tabla}
+
+% Escribir aquí el título del trabajo fin de máster
+\newcommand{\titul}{Análisis experimental de aplicaciones robóticas basadas en ROS sobre una infraestructura 5G}
+% ------------------
+\sectionmark{\titul}
+
+%\input{titul} NO INCLUYO LA PORTADA
+\cleardoublepage
+\thispagestyle{fancyplain}
+\setcounter{page}{1}
+
+
+
+\newpage
+
+\vspace{1cm}
+
+\noindent {\estilouno Objetivos -- }
+
+De forma más concreta:
+\begin{enumerate}
+
+\item \textbf{Caracterización del modelo \gls{ros1} integrado por Summit XL}
+
+Analizar la arquitectura de comunicación de \gls{ros1} integrada por la plataforma Summit XL, con el fin de identificar los procesos mas demansantes.
+
+\item \textbf{Selección e integración de herramientas de medición}
+
+Investigar herramientas existentes para la medición de latencias y otros parámetros de rendimiento en \gls{ros1}, seleccionar una herramienta adecuada e integrarla en el entorno experimental para la obtención de métricas cuantitativas.
+
+\item \textbf{Diseño de arquitectura distribuida Robot--Edge}
+
+Diseñar una arquitectura distribuida mínima que represente un escenario Robot--Edge, constituida por nodos locales y nodos remotos desplegados en diferentes máquinas, permitiendo evaluar comunicaciones extremo a extremo en un entorno distribuido real.
+
+\item \textbf{Evaluación bajo infraestructura \gls{5g}}
+
+Configurar y utilizar una infraestructura de red \gls{5g} representativa de un entorno real, considerando parámetros como latencia, variabilidad temporal y pérdida de paquetes, con el fin de generar escenarios experimentales reproducibles.
+
+\item \textbf{Análisis cuantitativo de las comunicaciones}
+
+Medir y analizar cuantitativamente el comportamiento del sistema bajo distintas condiciones de red, evaluando parámetros como latencia end--to--end, tasa de transferencia, estabilidad de comunicación y diferencias entre ejecución local y distribuida.
+
+\end{enumerate}
+
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Metodología -- }  ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Desarrollos teóricos realizados -- }  ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Desarrollo de prototipos y trabajo de laboratorio -- }  ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Resultados -- }  ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Líneas futuras -- }  ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Publicaciones -- } ...
+
+\vspace{3.5cm}
+
+\noindent {\estilouno Abstract -- }
+
+
+\vspace{1em}
+
+\noindent{\estilouno Resumen -- }
+
+
+
+
+\vspace{3.5cm}
+
+\vfill
+
+\noindent Autor: Guillermo García Rodríguez, \href{mailto:guillegr1999@gmail.com}{email: guillegr1999@gmail.com} \\
+Director: David Gomez-Barquero, \href{mailto:dagobar@iteam.upv.es}{email: dagobar@iteam.upv.es} \\
+Tutor externo: Nuria Molner Siurana, \href{mailto:numolsiu@iteam.upv.es}{email: numolsiu@iteam.upv.es} \\
+Tutor externo: Raúl Lozano Teruel, \href{mailto:raulote@iteam.upv.es}{email: raulote@iteam.upv.es} \\
+Fecha de entrega: 31-05-26
+
+
+\pagebreak 
+
+\noindent {\estilodos LISTA DE ACRÓNIMOS -- }
+\renewcommand{\glossarysection}[2][]{}
+\printglossary[type=\acronymtype]
+
+\vspace{3.5cm}
+
+\noindent {\estilodos LISTA DE FIGURAS -- }
+\renewcommand{\listfigurename}{}
+\listoffigures
+
+\pagebreak
+
+\sectionmark{\titul}
+\tableofcontents
+\sectionmark{\titul}
+
+\pagebreak
+
+\sectionmark{\titul}
+
+% ================================================================
+% 01. INTRODUCCION
+% ================================================================
+\include{sections/01_introduccion/01_00_introduccion/01_00_00_introduccion}
+\include{sections/01_introduccion/01_01_contexto_y_motivacion/01_01_contexto_y_motivacion}
+
+
+% ================================================================
+% 02. ESTADO DEL ARTE
+% ================================================================
+\include{sections/02_estado_del_arte/02_00_estado_del_arte/02_00_00_estado_del_arte}
+\include{sections/02_estado_del_arte/02_01_arquitecturas_de_comunicacion_para_robotica_conectada/02_01_00_arquitecturas_de_comunicacion_para_robotica_conectada}
+\include{sections/02_estado_del_arte/02_02_edge_computing_para_sistemas_roboticos/02_02_00_edge_computing_para_sistemas_roboticos}
+\include{sections/02_estado_del_arte/02_03_middleware_robotico_ros1_ros2/02_03_00_middleware_robotico_ros1_ros2}
+\include{sections/02_estado_del_arte/02_04_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos/02_04_00_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos}
+% ================================================================
+% 03. ARQUITECTURA DEL SISTEMA PROPUESTO
+% ================================================================
+\input{sections/03_arquitectura_del_sistema_propuesto/03_00_arquitectura_del_sistema_propuesto/03_00_00_arquitectura_del_sistema_propuesto}
+\input{sections/03_arquitectura_del_sistema_propuesto/03_01_vision_general_de_la_arquitectura/03_01_00_vision_general_de_la_arquitectura}
+% ============================== 3.2. CAPA ROBOTICA ==============================
+\input{sections/03_arquitectura_del_sistema_propuesto/03_02_capa_robotica/03_02_00_capa_robotica}
+\input{sections/03_arquitectura_del_sistema_propuesto/03_02_capa_robotica/03_02_01_plataforma_hardware_summit_xl}
+% \input{sections/03_arquitectura_del_sistema_propuesto/03_02_capa_robotica/03_02_02_arquitectura_software_ros_1}
+% ============================== 3.3. CAPA DE RED 5G PRIVADA ==============================
+\input{sections/03_arquitectura_del_sistema_propuesto/03_03_capa_de_red_5G_privada/03_03_00_capa_de_red_5G_privada}
+\input{sections/03_arquitectura_del_sistema_propuesto/03_03_capa_de_red_5G_privada/03_03_01_arquitectura_general_de_la_red_privada}
+% ============================== 3.4. CAPA EDGE ==============================
+% \input{sections/03_arquitectura_del_sistema_propuesto/03_04_capa_edge/03_04_00_capa_edge}
+% ============================== 3.5. FLUJO DE EXTREMO A EXTREMO ==============================
+% \input{sections/03_arquitectura_del_sistema_propuesto/03_05_flujo_extremo_a_extremo/03_05_00_flujo_de_extremo_a_extremo}
+% ================================================================
+% 04. ARQUITECTURA EXPERIMENTAL
+% ================================================================
+
+% ================================================================
+% 05. RESULTADOS
+% ================================================================
+
+% ================================================================
+% 04. CONCLUSIONES
+% ================================================================
+
+% ================================================================
+% 04. TRABAJO FUTURO
+% ================================================================
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+\end{document}

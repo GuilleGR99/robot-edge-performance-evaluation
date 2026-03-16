@@ -1,0 +1,12 @@
+\subsection{Contexto y motivación}
+\label{sec:contexto_y_motivacion}
+
+La robótica móvil está experimentando un crecimiento significativo en sectores como la industria o la logística. Los robots deben operar en entornos dinámicos y procesar grandes cantidades de información procedente de múltiples sensores. Tradicionalmente, los sistemas robóticos han sido diseñados para realizar las tareas computacionales de forma completamente local. Sin embargo, la creciente complejidad de las tareas ha puesto de manifiesto las limitaciones de esta estrategia, lo que ha impulsado el desarrollo de arquitecturas de computación distribuida que asisten con el procesamiento más allá de las limitaciones de los sistemas embarcados.
+
+El paradigma de \textit{edge computing} ha emergido como una alternativa que permite trasladar parte del procesamiento a servidores cercanos, reduciendo la carga computacional del robot.
+
+Paralelamente, las redes \gls{5g} ofrecen características especialmente adecuadas para sistemas robóticos distribuidos. Estas capacidades permiten establecer arquitecturas en las que los robots pueden intercambiar grandes volúmenes de datos con infraestructuras de computación externas en tiempo casi real, facilitando la distribución de tareas entre el robot y los servidores de \textit{edge computing}.
+
+En este contexto, surge la necesidad de investigar metodologías que permitan distribuir de forma eficiente las funciones de un sistema robótico entre el robot y el \textit{edge}. Este tipo de arquitecturas híbridas plantea diversos desafíos, entre ellos la gestión de la latencia de comunicación, la selección de las tareas adecuadas para su ejecución remota y la integración de estas capacidades dentro de los middleware robóticos existentes.
+
+El presente trabajo explora la integración de mecanismos de distribución de funciones entre el robot y el \textit{edge} en un sistema robótico basado en ROS desplegado sobre una red privada \gls{5g}.
