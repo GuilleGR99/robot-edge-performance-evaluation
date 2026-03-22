@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Gazebo world -->
+  <arg name="world" default="$(find summit_xl_gazebo)/worlds/rotating_pillars.world"/>
+  <!-- Map -->
+  <arg name="map_file" default="rotating_pillars/rotating_pillars.yaml"/>  
+  <!-- Stadistics -->
+  <rosparam param="/enable_statistics">true</rosparam>
+
+  <!-- Launch simulation stack -->
+  <include file="$(find summit_xl_sim_bringup)/launch/summit_xl_complete.launch">
+
+    <!-- Gazebo -->
+    <arg name="gazebo_world" value="$(arg world)"/>
+    <arg name="gazebo_gui" value="false"/>
+
+    <!-- Robots -->
+    <arg name="launch_robot_a" value="true"/>
+    <arg name="launch_robot_b" value="false"/>
+    <arg name="launch_robot_c" value="false"/>
+
+    <!-- Localization -->
+    <arg name="amcl_and_mapserver_a" value="true"/>
+    <arg name="gmapping_robot_a" value="false"/>
+
+    <!-- Navigation -->
+    <arg name="move_base_robot_a" value="true"/>
+
+    <!-- Map -->
+    <arg name="map_file_a" value="$(arg map_file)"/>
+
+  </include>
+
+  <!-- Navigation frame fixes -->
+  <rosparam param="/robot/move_base/global_frame">robot_map</rosparam>
+  <rosparam param="/robot/move_base/robot_base_frame">robot_base_footprint</rosparam>
+
+  <rosparam param="/robot/move_base/global_costmap/global_frame">robot_map</rosparam>
+  <rosparam param="/robot/move_base/global_costmap/robot_base_frame">robot_base_footprint</rosparam>
+  <rosparam param="/robot/move_base/global_costmap/static_map">true</rosparam>
+
+  <rosparam param="/robot/move_base/local_costmap/global_frame">robot_odom</rosparam>
+  <rosparam param="/robot/move_base/local_costmap/robot_base_frame">robot_base_footprint</rosparam>
+
+  <node pkg="rostopic" type="rostopic" name="delay_odom" args="delay /robot/robotnik_base_control/odom -w 250" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="delay_scan" args="delay /robot/front_laser/scan -w 200" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="delay_cmd_vel" args="delay /robot/robotnik_base_control/cmd_vel -w 50" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+
+  <node pkg="rostopic" type="rostopic" name="hz_odom" args="hz /robot/robotnik_base_control/odom -w 250" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="hz_scan" args="hz /robot/front_laser/scan -w 200" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="hz_cmd_vel" args="hz /robot/robotnik_base_control/cmd_vel -w 50" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+
+  <node pkg="rostopic" type="rostopic" name="bw_scan" args="bw /robot/front_laser/scan" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="bw_rgb" args="bw /robot/front_rgbd_camera/rgb/image_raw" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="bw_points" args="bw /robot/front_rgbd_camera/depth/points" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+  <node pkg="rostopic" type="rostopic" name="bw_3d_laser" args="bw /robot/top_3d_laser/scan" output="log" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+
+</launch>
