@@ -11,3 +11,4 @@
 *.out
 *.toc
 *.gz
+*.venv
