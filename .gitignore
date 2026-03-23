@@ -12,3 +12,4 @@
 *.toc
 *.gz
 *.venv
+.python-version
