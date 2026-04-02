@@ -19,7 +19,8 @@ verbose = args.verbose
 stats = defaultdict(lambda: {
     "count": 0,
     "bytes": 0,
-    "times": []
+    "times": [],
+    "latencies": []
 })
 
 bag = rosbag.Bag(bag_path)
@@ -37,19 +38,31 @@ for topic, msg, t in bag.read_messages():
 
     stats[topic]["times"].append(t.to_sec())
 
+    # -------- LATENCY --------
+    if hasattr(msg, "header") and hasattr(msg.header, "stamp"):
+        msg_time = msg.header.stamp.to_sec()
+        bag_time = t.to_sec()
+
+        latency = (bag_time - msg_time) * 1000  # ms
+
+        # evitar valores invalidos (opcional pero recomendable)
+        if latency >= 0:
+            stats[topic]["latencies"].append(latency)
+
 bag.close()
 
 results = {}
 
 if verbose:
-    print("{:<50} {:>6} {:>10} {:>10} {:>10} {:>10} {:>10} {:>10}".format(
-        "Topic", "Hz", "SizeKB", "BW", "PeakBW", "Jitter", "MinDt", "MaxDt"
+    print("{:<50} {:>6} {:>10} {:>10} {:>10} {:>10} {:>10} {:>10} {:>10}".format(
+        "Topic", "Hz", "SizeKB", "BW", "PeakBW", "Jitter", "MinDt", "MaxDt", "Lat(ms)"
     ))
 
 for topic, data in stats.items():
     count = data["count"]
     total_bytes = data["bytes"]
     times = data["times"]
+    lat_list = data["latencies"]
 
     if count == 0:
         continue
@@ -84,6 +97,16 @@ for topic, data in stats.items():
         if len(inst_bw) > 0:
             peak_bw = max(inst_bw)
 
+    # -------- LATENCY METRICS --------
+    lat_mean = 0
+    lat_min = 0
+    lat_max = 0
+
+    if len(lat_list) > 0:
+        lat_mean = sum(lat_list) / len(lat_list)
+        lat_min = min(lat_list)
+        lat_max = max(lat_list)
+
     active_duration = 0
     if len(times) > 1:
         active_duration = times[-1] - times[0]
@@ -96,13 +119,16 @@ for topic, data in stats.items():
         "jitter_ms": jitter,
         "min_dt_ms": min_dt,
         "max_dt_ms": max_dt,
+        "lat_mean_ms": lat_mean,
+        "lat_min_ms": lat_min,
+        "lat_max_ms": lat_max,
         "messages": count,
         "total_bytes": total_bytes,
         "active_duration_s": active_duration
     }
 
     if verbose:
-        print("{:<50} {:6.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f}".format(
+        print("{:<50} {:6.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f} {:10.2f}".format(
             topic,
             freq,
             avg_size / 1024.0,
@@ -110,7 +136,8 @@ for topic, data in stats.items():
             peak_bw / (1024.0 * 1024.0),
             jitter,
             min_dt,
-            max_dt
+            max_dt,
+            lat_mean
         ))
 
 # Save JSON
