@@ -19,7 +19,7 @@ NODES = [
 ]
 
 INTERVAL = 1.0
-OUTPUT = "../data/node_metrics.json"
+OUTPUT = "ros_node_metrics.json"
 
 
 # -------------------------
