@@ -6,6 +6,8 @@
 
 WORKSPACE=~/catkin_ws
 LOG_SIM="sim.log"
+LOG_ADAPTER1="twist_to_stamped.log"
+LOG_ADAPTER2="stamped_to_twist.log"
 
 ########################################
 # Preparar entorno ROS
@@ -36,6 +38,31 @@ until rostopic list >/dev/null 2>&1
 do
   sleep 1
 done
+
+########################################
+# Lanzar adaptadores
+########################################
+
+echo "Lanzando adaptadores..."
+
+rosrun latency_tools twist_to_stamped.py > $LOG_ADAPTER1 2>&1 &
+ADAPTER1_PID=$!
+
+rosrun latency_tools stamped_to_twist.py > $LOG_ADAPTER2 2>&1 &
+ADAPTER2_PID=$!
+
+########################################
+# Esperar a adaptadores
+########################################
+
+echo "Esperando cmd_vel..."
+
+until rostopic list 2>/dev/null | grep -q "/robot/move_base/cmd_vel"
+do
+  sleep 1
+done
+
+echo "cmd_vel disponible"
 
 ########################################
 # Esperar a AMCL
@@ -128,7 +155,7 @@ wait_for_goal () {
 }
 
 ########################################
-# Funcion enviar goal (con orientacion)
+# Funcion enviar goal
 ########################################
 
 send_goal () {
@@ -139,7 +166,6 @@ send_goal () {
 
   echo "Enviando goal -> x:$X y:$Y yaw:$YAW"
 
-  # Conversion yaw -> cuaternion
   Z=$(python3 - <<EOF
 import math
 print(math.sin($YAW/2))
@@ -175,34 +201,15 @@ echo "-----------------------------"
 echo "Inicio de vuelta $i"
 echo "-----------------------------"
 
-echo "Destino $i A"
 send_goal 2.5 0.75 0
-
-echo "Destino $i B"
 send_goal 4.5 4.5 3.14
-
-echo "Destino $i C"
 send_goal 0 4.5 3.14
-
-echo "Destino $i D"
 send_goal -4.5 4.5 4.71
-
-echo "Destino $i E"
 send_goal -4.5 0 4.71
-
-echo "Destino $i F"
 send_goal -4.5 -4.5 0
-
-echo "Destino $i G"
 send_goal 0 -4.5 0
-
-echo "Destino $i H"
 send_goal 4.5 -4.5 1.57
-
-echo "Destino $i I"
 send_goal 2.5 -0.75 3.14
-
-echo "Destino $i origen"
 send_goal 0 0 0
 
 echo "Vuelta $i completada"
@@ -214,6 +221,9 @@ done
 ########################################
 
 sleep 5
+
+kill $ADAPTER1_PID
+kill $ADAPTER2_PID
 kill $LAUNCH_PID
 
 echo "Simulacion finalizada"

@@ -13,3 +13,6 @@
 *.gz
 *.venv
 .python-version
+data/
+.vscode
+notas.md

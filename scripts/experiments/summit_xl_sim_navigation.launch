@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Gazebo world -->
+  <arg name="world" default="$(find summit_xl_gazebo)/worlds/rotating_pillars.world"/>
+  
+  <!-- Map -->
+  <arg name="map_file" default="rotating_pillars/rotating_pillars.yaml"/>  
+  
+  <!-- Statistics -->
+  <rosparam param="/enable_statistics">true</rosparam>
+
+  <!-- Launch simulation stack -->
+  <include file="$(find summit_xl_sim_bringup)/launch/summit_xl_complete.launch">
+
+    <!-- Gazebo -->
+    <arg name="gazebo_world" value="$(arg world)"/>
+    <arg name="gazebo_gui" value="false"/>
+
+    <!-- Robots -->
+    <arg name="launch_robot_a" value="true"/>
+    <arg name="launch_robot_b" value="false"/>
+    <arg name="launch_robot_c" value="false"/>
+
+    <!-- Localization -->
+    <arg name="amcl_and_mapserver_a" value="true"/>
+    <arg name="gmapping_robot_a" value="false"/>
+
+    <!-- Navigation -->
+    <arg name="move_base_robot_a" value="true"/>
+
+    <!-- Map -->
+    <arg name="map_file_a" value="$(arg map_file)"/>
+
+  </include>
+
+  <!-- Navigation frame fixes -->
+  <rosparam param="/robot/move_base/global_frame">robot_map</rosparam>
+  <rosparam param="/robot/move_base/robot_base_frame">robot_base_footprint</rosparam>
+
+  <rosparam param="/robot/move_base/global_costmap/global_frame">robot_map</rosparam>
+  <rosparam param="/robot/move_base/global_costmap/robot_base_frame">robot_base_footprint</rosparam>
+  <rosparam param="/robot/move_base/global_costmap/static_map">true</rosparam>
+
+  <rosparam param="/robot/move_base/local_costmap/global_frame">robot_odom</rosparam>
+  <rosparam param="/robot/move_base/local_costmap/robot_base_frame">robot_base_footprint</rosparam>
+
+  <!-- Latency instrumentation pipeline -->
+  <!-- Nodo instrumentador -->
+  <node pkg="latency_tools" type="cmd_vel_instrumenter.py" name="cmd_vel_instrumenter" output="screen" />
+  <node pkg="latency_tools" type="twist_to_stamped.py" name="twist_to_stamped" output="screen"/>
+  <node pkg="latency_tools" type="stamped_to_twist.py" name="stamped_to_twist" output="screen"/>
+
+  <!-- Rosbag recorder -->
+  <node pkg="rosbag" type="record" name="bag_recorder"
+        args="-O $(env HOME)/experiment.bag --lz4 \
+        /clicked_point \
+        /clock \
+        /diagnostics \
+        /gazebo/link_states \ 
+        /gazebo/model_states \ 
+        /gazebo/parameter_descriptions \ 
+        /gazebo/parameter_updates \ 
+        /gazebo/set_link_state \ 
+        /gazebo/set_model_state \
+        /robot/amcl/parameter_descriptions \ 
+        /robot/amcl/parameter_updates \ 
+        /robot/amcl_pose \
+        /robot/cmd_vel \ 
+        /robot/docker/cmd_vel \
+        /robot/front_laser/scan \
+        /robot/front_rgbd_camera/depth/camera_info \ 
+        /robot/front_rgbd_camera/depth/image_raw \ 
+        /robot/front_rgbd_camera/depth/points \
+        /robot/front_rgbd_camera/parameter_descriptions \ 
+        /robot/front_rgbd_camera/parameter_updates \
+        /robot/front_rgbd_camera/rgb/camera_info \ 
+        /robot/front_rgbd_camera/rgb/image_raw \
+        /robot/gps/fix \ 
+        /robot/gps/fix/position/parameter_descriptions \ 
+        /robot/gps/fix/position/parameter_updates \
+        /robot/gps/fix/status/parameter_descriptions \ 
+        /robot/gps/fix/status/parameter_updates \
+        /robot/gps/fix/velocity/parameter_descriptions \ 
+        /robot/gps/fix/velocity/parameter_updates \
+        /robot/gps/fix_velocity \
+        /robot/imu/data /robot/imu/data_raw \ 
+        /robot/imu/rpy/filtered \
+        /robot/initialpose \
+        /robot/joint_pan_position_controller/command \ 
+        /robot/joint_pan_position_controller/pid/parameter_descriptions \ 
+        /robot/joint_pan_position_controller/pid/parameter_updates \ 
+        /robot/joint_pan_position_controller/state \
+        /robot/joint_states \
+        /robot/joint_tilt_position_controller/command \ 
+        /robot/joint_tilt_position_controller/pid/parameter_descriptions \ 
+        /robot/joint_tilt_position_controller/pid/parameter_updates \ 
+        /robot/joint_tilt_position_controller/state \
+        /robot/map /robot/map_metadata /robot/map_updates \
+        /robot/move/cmd_vel \
+        /robot/move_base/GlobalPlanner/parameter_descriptions \ 
+        /robot/move_base/GlobalPlanner/parameter_updates \ 
+        /robot/move_base/GlobalPlanner/plan \ 
+        /robot/move_base/GlobalPlanner/potential \
+        /robot/move_base/NavfnROS/plan \
+        /robot/move_base/TebLocalPlannerROS/local_plan \
+        /robot/move_base/cancel /robot/move_base/cmd_vel \ 
+        /robot/move_base/current_goal \ 
+        /robot/move_base/feedback \
+        /robot/move_base/global_costmap/costmap \ 
+        /robot/move_base/global_costmap/costmap_updates \ 
+        /robot/move_base/global_costmap/footprint \
+        /robot/move_base/global_costmap/inflation_layer/parameter_descriptions \ 
+        /robot/move_base/global_costmap/inflation_layer/parameter_updates \
+        /robot/move_base/global_costmap/obstacle_layer/parameter_descriptions \ 
+        /robot/move_base/global_costmap/obstacle_layer/parameter_updates \
+        /robot/move_base/global_costmap/parameter_descriptions \ 
+        /robot/move_base/global_costmap/parameter_updates \
+        /robot/move_base/global_costmap/static_layer/parameter_descriptions \ 
+        /robot/move_base/global_costmap/static_layer/parameter_updates \
+        /robot/move_base/goal \
+        /robot/move_base/local_costmap/costmap \ 
+        /robot/move_base/local_costmap/costmap_updates \
+        /robot/move_base/local_costmap/footprint \
+        /robot/move_base/local_costmap/inflation_layer/parameter_descriptions \
+        /robot/move_base/local_costmap/inflation_layer/parameter_updates \
+        /robot/move_base/local_costmap/obstacle_layer/parameter_descriptions \
+        /robot/move_base/local_costmap/obstacle_layer/parameter_updates \
+        /robot/move_base/local_costmap/parameter_descriptions \ 
+        /robot/move_base/local_costmap/parameter_updates \
+        /robot/move_base/parameter_descriptions \ 
+        /robot/move_base/parameter_updates \
+        /robot/move_base/result /robot/move_base/status \
+        /robot/move_base_simple/goal \
+        /robot/pad_teleop/cmd_vel \
+        /robot/particlecloud \
+        /robot/rear_laser/scan \
+        /robot/robot_front_ptz_camera/camera_info \ 
+        /robot/robot_front_ptz_camera/image_raw \
+        /robot/robot_front_ptz_camera/parameter_descriptions \ 
+        /robot/robot_front_ptz_camera/parameter_updates \
+        /robot/robotnik_base_control/cmd_vel \
+        /robot/robotnik_base_control/emergency_stop \ 
+        /robot/robotnik_base_control/odom \
+        /robot/robotnik_base_hw/emergency_stop \
+        /robot/top_3d_laser/scan \
+        /robot/twist_marker \
+        /robot/urcap_command_bridge/cmd_vel \
+        /robot/web_teleop/cmd_vel \
+        /rosout \ 
+        /rosout_agg \ 
+        /statistics \ 
+        /tf \ 
+        /tf_static \
+        /robot/move_base/cmd_vel_stamped \
+        /robot/robotnik_base_control/cmd_vel"
+        output="screen"
+        launch-prefix="bash -c 'sleep 10; exec $0 $@'"/>
+
+</launch>
