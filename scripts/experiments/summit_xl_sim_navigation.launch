@@ -53,7 +53,10 @@
   <!-- Pipeline localizacion -->
   <node pkg="latency_tools" type="amcl_pose_instrumenter.py"
         name="amcl_pose_instrumenter" output="screen"/>
-        
+  <!-- Pipeline odometria -->
+  <node pkg="latency_tools" type="odom_instrumenter.py"
+      name="odom_instrumenter" output="screen"/>
+
   <!-- Rosbag recorder -->
   <node pkg="rosbag" type="record" name="bag_recorder"
         args="-O $(env HOME)/experiment.bag --lz4 \
