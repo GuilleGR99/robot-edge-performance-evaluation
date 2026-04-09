@@ -5,31 +5,28 @@
   <arg name="world" default="$(find summit_xl_gazebo)/worlds/rotating_pillars.world"/>
   
   <!-- Map -->
-  <arg name="map_file" default="rotating_pillars/rotating_pillars.yaml"/>  
+  <arg name="map_file" default="rotating_pillars/rotating_pillars.yaml"/>
+    
   
   <!-- Statistics -->
   <rosparam param="/enable_statistics">true</rosparam>
 
-  <!-- Launch simulation stack -->
   <include file="$(find summit_xl_sim_bringup)/launch/summit_xl_complete.launch">
 
-    <!-- Gazebo -->
+    <arg name="launch_rviz" value="false"/>
+
     <arg name="gazebo_world" value="$(arg world)"/>
     <arg name="gazebo_gui" value="false"/>
 
-    <!-- Robots -->
     <arg name="launch_robot_a" value="true"/>
     <arg name="launch_robot_b" value="false"/>
     <arg name="launch_robot_c" value="false"/>
 
-    <!-- Localization -->
     <arg name="amcl_and_mapserver_a" value="true"/>
     <arg name="gmapping_robot_a" value="false"/>
 
-    <!-- Navigation -->
     <arg name="move_base_robot_a" value="true"/>
 
-    <!-- Map -->
     <arg name="map_file_a" value="$(arg map_file)"/>
 
   </include>
@@ -46,10 +43,13 @@
   <rosparam param="/robot/move_base/local_costmap/robot_base_frame">robot_base_footprint</rosparam>
 
   <!-- Latency instrumentation pipeline -->
-  <!-- Nodo instrumentador -->
-  <node pkg="latency_tools" type="cmd_vel_instrumenter.py" name="cmd_vel_instrumenter" output="screen" />
+  <!-- Pipeline control -->
   <node pkg="latency_tools" type="twist_to_stamped.py" name="twist_to_stamped" output="screen"/>
   <node pkg="latency_tools" type="stamped_to_twist.py" name="stamped_to_twist" output="screen"/>
+  <!-- Pipeline planificacion -->
+  <node pkg="latency_tools" type="goal_instrumenter.py" name="goal_instrumenter" output="screen"/>
+  <node pkg="topic_tools" type="relay" name="goal_relay"
+        args="/robot/move_base_simple/goal_stamped /robot/move_base_simple/goal"/>
 
   <!-- Rosbag recorder -->
   <node pkg="rosbag" type="record" name="bag_recorder"
@@ -153,7 +153,8 @@
         /tf \ 
         /tf_static \
         /robot/move_base/cmd_vel_stamped \
-        /robot/robotnik_base_control/cmd_vel"
+        /robot/robotnik_base_control/cmd_vel \
+        goal_instrumenter"
         output="screen"
         launch-prefix="bash -c 'sleep 10; exec $0 $@'"/>
 

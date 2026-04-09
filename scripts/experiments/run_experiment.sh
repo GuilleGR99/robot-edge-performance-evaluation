@@ -25,7 +25,7 @@ export ROS_HOSTNAME=localhost
 
 echo "Lanzando simulacion..."
 
-roslaunch summit_xl_gazebo summit_xl_sim_navigation.launch > $LOG_SIM 2>&1 &
+roslaunch summit_xl_gazebo summit_xl_sim_navigation.launch gazebo_gui:=false launch_rviz:=false > $LOG_SIM 2>&1 &
 LAUNCH_PID=$!
 
 ########################################
@@ -178,7 +178,7 @@ print(math.cos($YAW/2))
 EOF
 )
 
-  rostopic pub -1 /robot/move_base_simple/goal geometry_msgs/PoseStamped "
+  rostopic pub -1 /robot/move_base_simple/goal_stamped geometry_msgs/PoseStamped "
 header:
   frame_id: 'robot_map'
 pose:
