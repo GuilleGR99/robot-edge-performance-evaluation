@@ -50,7 +50,10 @@
   <node pkg="latency_tools" type="goal_instrumenter.py" name="goal_instrumenter" output="screen"/>
   <node pkg="topic_tools" type="relay" name="goal_relay"
         args="/robot/move_base_simple/goal_stamped /robot/move_base_simple/goal"/>
-
+  <!-- Pipeline localizacion -->
+  <node pkg="latency_tools" type="amcl_pose_instrumenter.py"
+        name="amcl_pose_instrumenter" output="screen"/>
+        
   <!-- Rosbag recorder -->
   <node pkg="rosbag" type="record" name="bag_recorder"
         args="-O $(env HOME)/experiment.bag --lz4 \
