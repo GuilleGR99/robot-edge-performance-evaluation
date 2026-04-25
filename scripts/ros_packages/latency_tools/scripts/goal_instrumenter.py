@@ -21,10 +21,12 @@ class GoalInstrumenter:
         )
 
     def callback(self, msg):
-        # Sobrescribir timestamp
-        msg.header.stamp = rospy.Time.now()
+        stamped = PoseStamped()
+        stamped.header.stamp = rospy.Time.now()
+        stamped.header.frame_id = msg.header.frame_id
+        stamped.pose = msg.pose
 
-        self.pub.publish(msg)
+        self.pub.publish(stamped)
 
 if __name__ == '__main__':
     GoalInstrumenter()
