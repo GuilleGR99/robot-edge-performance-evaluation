@@ -1,0 +1,15 @@
+\subsubsection{Conclusiones e implicaciones}
+
+El análisis realizado permite extraer una serie de conclusiones claras sobre el comportamiento temporal del sistema.
+
+En primer lugar, el pipeline de control (decisión, arbitraje y ejecución) presenta un comportamiento estable y acotado, tanto en términos de magnitud como de variabilidad. La latencia física se mantiene en un rango estrecho, con baja dispersión y sin presencia de eventos extremos, lo que indica un funcionamiento determinista y predecible de estos subsistemas.
+
+En contraste, el módulo de percepción introduce un cambio cualitativo en el comportamiento del sistema. No solo incrementa significativamente la latencia end-to-end, sino que además actúa como principal fuente de variabilidad. La similitud entre la dispersión de la latencia de percepción y la latencia end-to-end percibida, tanto en desviación estándar como en percentiles altos, evidencia que este subsistema domina el comportamiento global del sistema.
+
+Adicionalmente, la presencia de colas largas y eventos de alta latencia en la percepción indica la existencia de episodios de degradación temporal que no pueden explicarse como ruido, sino como un comportamiento estructural asociado a la naturaleza asíncrona y dependiente de los datos del proceso de localización.
+
+Desde una perspectiva de sistema, estos resultados implican que el rendimiento no está limitado por la capacidad de decisión o ejecución, sino por el cierre del bucle de percepción. En consecuencia, el sistema opera en un régimen \textit{perception-bound}, donde las mejoras en el pipeline de control tienen un impacto limitado sobre la latencia total.
+
+Por tanto, cualquier estrategia orientada a reducir la latencia o mejorar la previsibilidad del sistema debe centrarse prioritariamente en el módulo de percepción. Esto incluye la optimización de la frecuencia de actualización o la reducción del coste computacional de los algoritmos de localización.
+
+Finalmente, los resultados ponen de manifiesto que la latencia percibida no solo es mayor que la latencia física, sino que presenta una naturaleza estadística diferente, caracterizada por mayor dispersión, asimetría y presencia de valores extremos. Esta diferencia debe ser tenida en cuenta en el diseño y evaluación de sistemas robóticos, ya que afecta directamente a la capacidad de respuesta y a la estabilidad temporal del sistema en condiciones reales de operación.

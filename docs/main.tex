@@ -21,6 +21,7 @@
 \usepackage{array}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{pdfpages}
 
 \usepackage[toc,acronym,nonumberlist]{glossaries}
 \makeglossaries
@@ -183,18 +184,18 @@ Fecha de entrega: 31-05-26
 % ================================================================
 % 01. INTRODUCCION
 % ================================================================
-\include{sections/01_introduccion/01_00_introduccion/01_00_00_introduccion}
-\include{sections/01_introduccion/01_01_contexto_y_motivacion/01_01_contexto_y_motivacion}
+\input{sections/01_introduccion/01_00_introduccion/01_00_00_introduccion}
+\input{sections/01_introduccion/01_01_contexto_y_motivacion/01_01_contexto_y_motivacion}
 
 
 % ================================================================
 % 02. ESTADO DEL ARTE
 % ================================================================
-\include{sections/02_estado_del_arte/02_00_estado_del_arte/02_00_00_estado_del_arte}
-\include{sections/02_estado_del_arte/02_01_arquitecturas_de_comunicacion_para_robotica_conectada/02_01_00_arquitecturas_de_comunicacion_para_robotica_conectada}
-\include{sections/02_estado_del_arte/02_02_edge_computing_para_sistemas_roboticos/02_02_00_edge_computing_para_sistemas_roboticos}
-\include{sections/02_estado_del_arte/02_03_middleware_robotico_ros1_ros2/02_03_00_middleware_robotico_ros1_ros2}
-\include{sections/02_estado_del_arte/02_04_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos/02_04_00_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos}
+\input{sections/02_estado_del_arte/02_00_estado_del_arte/02_00_00_estado_del_arte}
+\input{sections/02_estado_del_arte/02_01_arquitecturas_de_comunicacion_para_robotica_conectada/02_01_00_arquitecturas_de_comunicacion_para_robotica_conectada}
+\input{sections/02_estado_del_arte/02_02_edge_computing_para_sistemas_roboticos/02_02_00_edge_computing_para_sistemas_roboticos}
+\input{sections/02_estado_del_arte/02_03_middleware_robotico_ros1_ros2/02_03_00_middleware_robotico_ros1_ros2}
+\input{sections/02_estado_del_arte/02_04_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos/02_04_00_evaluacion_de_latencia_en_sistemas_roboticos_distribuidos}
 % ================================================================
 % 03. ARQUITECTURA DEL SISTEMA PROPUESTO
 % ================================================================
@@ -216,15 +217,25 @@ Fecha de entrega: 31-05-26
 % ================================================================
 
 % ================================================================
-% 05. RESULTADOS
+% 05. ANALISIS DE LATENCIA DEL SISTEMA
 % ================================================================
+\input{sections/05_analisis_de_latencia_del_sistema/05_00_analisis_de_latencia_del_sistema/05_00_analisis_de_latencia_del_sistema.tex}
+\input{sections/05_analisis_de_latencia_del_sistema/05_01_analisis_de_latencia_del_sistema_centralizado/05_01_00_analisis_de_latencia_del_sistema_centralizado/05_01_00_analisis_de_latencia_del_sistema_centralizado.tex}
+\input{sections/05_analisis_de_latencia_del_sistema/05_01_analisis_de_latencia_del_sistema_centralizado/05_01_01_procesamiento_y_modelado_de_los_datos/05_01_01_00_procesamiento_y_modelado_de_los_datos.tex}
+\input{sections/05_analisis_de_latencia_del_sistema/05_01_analisis_de_latencia_del_sistema_centralizado/05_01_02_resultados_del_analisis_de_latencia/05_01_02_00_resultados_del_analisis_de_latencia.tex}
+\input{sections/05_analisis_de_latencia_del_sistema/05_01_analisis_de_latencia_del_sistema_centralizado/05_01_03_conclusiones_e_implicaciones/05_01_03_00_conclusiones_e_implicaciones.tex}
+% ================================================================
+% 08. ANEXO
+% ================================================================
+\input{sections/00_anexo/00_00_anexo/00_00_00_anexo}
+\input{sections/00_anexo/00_01_analisis_completo_del_sistema/00_01_00_analisis_completo_del_sistema.tex}
+\input{sections/00_anexo/00_02_analisis_de_la_latencia_en_arquitectura_centralizada/00_02_00_analisis_de_la_latencia_en_arquitectura_centralizada.tex}
+
+
+
 
 % ================================================================
-% 04. CONCLUSIONES
-% ================================================================
-
-% ================================================================
-% 04. TRABAJO FUTURO
+% 08. BIBLIOGRAFIA
 % ================================================================
 
 \bibliographystyle{IEEEtran}
