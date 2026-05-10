@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- Activar TEB -->
+  <param name="robot/move_base/base_local_planner"
+         value="teb_local_planner/TebLocalPlannerROS"/>
+
+  <!-- Asegurar uso de sim time -->
+  <param name="use_sim_time" value="true"/>
+
+  <node pkg="move_base"
+        type="move_base"
+        name="move_base"
+        ns="robot"
+        output="screen"/>
+
+</launch>
